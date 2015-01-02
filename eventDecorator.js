@@ -12,28 +12,33 @@ function eventDecorator(target){
 	};
 
 	// adds a listener
-	target.on = function(event, cb){
-		this.events[event] = Array.isArray(this.events[event]) 
-			? this.events[event].push(cb) 
+	target.on = function(events, cb){
+		events.split(' ').forEach(function(e){
+			this.events[e] = Array.isArray(this.events[e]) 
+			? this.events[e].push(cb) 
 			: [cb];
+		}, this);
 	};
 
 	// removes a listener
-	target.off = function(event, cb){
-		var events = this.events[event];
+	target.off = function(events, cb){
+		var cleanedEvents = this.events;
+		var eventString = cb.toString();
 		var eventString = '';
-
-		cb = cb.toString();
 		
-		for(var i = 0; i < events.length; i++){
-			eventString = events[i].toString();
-			if(cb === eventString){
-				events.splice(i, 1);
-				break;
-			}
-		}		
+		events.split(' ').forEach(function(e){
+			if(cleanedEvents.hasOwnProperty(e)){
+				for(var i = 0; i < cleanedEvents[e].length; i++){
+					eventString = cleanedEvents[e][i].toString();
+					if(cb === eventString){
+						cleanedEvents[e].splice(i, 1);
+						break;
+					}
+				}
+			}	
+		}, this);
 
-		this.events = events;
+		this.events = cleanedEvents;
 	};
 
 	// execute the callback
