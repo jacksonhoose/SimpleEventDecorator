@@ -7,8 +7,10 @@ function eventDecorator(target){
 	target.events = {};
 
 	// manual trigger a listener
-	target.trigger = function(event){
-		this.execute(this.events.hasOwnProperty(event) ? this.events[event] : []);
+	target.trigger = function(events){
+		events.split(' ').forEach(function(e){
+			this.execute(this.events.hasOwnProperty(e) ? this.events[e] : []);
+		}, this);
 	};
 
 	// adds a listener
