@@ -1,7 +1,7 @@
 /*!
  *  Event Listener Mixin
  */
-function addEventLibrary(target){
+function eventDecorator(target){
 
 	// hash for storing events and cb's
 	target.events = {};
