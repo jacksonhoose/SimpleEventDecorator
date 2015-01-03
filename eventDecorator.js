@@ -25,7 +25,7 @@ function eventDecorator(target){
 	// removes a listener
 	target.off = function(events, cb){
 		var cleanedEvents = this.events;
-		var eventString = cb.toString();
+		var cb = cb.toString();
 		var eventString = '';
 		
 		events.split(' ').forEach(function(e){
@@ -46,7 +46,6 @@ function eventDecorator(target){
 	// execute the callback
 	target.execute = function(cb){
 		for(var i = 0; i < cb.length; i++){
-			// trigger events asyncronously
 			setTimeout(cb[i], 0);
 		}
 	};
